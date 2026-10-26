@@ -1,0 +1,15 @@
+{
+  "name": "GR ROLL - 理光GR胶片LUT相机",
+  "short_name": "GR ROLL",
+  "description": "复刻理光GR全系影调的扫街复古胶片相机，本地处理，高清保存。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#121212",
+  "theme_color": "#121212",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

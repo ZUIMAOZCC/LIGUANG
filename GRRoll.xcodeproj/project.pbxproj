@@ -1,0 +1,403 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+	1766F933858C2D8078458B61 /* GRRollApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1766F933858C2D8078458B61 /* GRRollApp.swift */; };
+	725825825BC43F899527F58C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725825825BC43F899527F58C /* ContentView.swift */; };
+	AB002D0EF02F9785D6154C16 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB002D0EF02F9785D6154C16 /* Theme.swift */; };
+	92D4081CCF64F622DB5BDC58 /* FilmLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D4081CCF64F622DB5BDC58 /* FilmLook.swift */; };
+	0FFEA1A25C947565C2BEA5B9 /* AspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFEA1A25C947565C2BEA5B9 /* AspectRatio.swift */; };
+	982D9BEAC5CB4F0AE725FEC6 /* Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982D9BEAC5CB4F0AE725FEC6 /* Preset.swift */; };
+	E3D5C4A42DDCB81BB4C04F35 /* GRLookFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D5C4A42DDCB81BB4C04F35 /* GRLookFilter.swift */; };
+	001749B0252082ECB9153769 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001749B0252082ECB9153769 /* CameraManager.swift */; };
+	E9F28CE4F84728181F8A3BE6 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F28CE4F84728181F8A3BE6 /* CameraPreviewView.swift */; };
+	4BB3BB9CD4992B6C67C30E9A /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB3BB9CD4992B6C67C30E9A /* SubscriptionManager.swift */; };
+	35C2B0DCD59DB3E5AB16B0EB /* WatermarkRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C2B0DCD59DB3E5AB16B0EB /* WatermarkRenderer.swift */; };
+	E8DAC99464774C97AB4892A0 /* PhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8DAC99464774C97AB4892A0 /* PhotoLibrary.swift */; };
+	5458C5BDAB33B0CB1585F8C7 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5458C5BDAB33B0CB1585F8C7 /* ImagePicker.swift */; };
+	F1C378035B85CBCEBA05381D /* LookBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C378035B85CBCEBA05381D /* LookBar.swift */; };
+	E2E21578CE31169325B5B3AB /* ParameterPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E21578CE31169325B5B3AB /* ParameterPanel.swift */; };
+	14D8572561C08CA5D5F12B8A /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D8572561C08CA5D5F12B8A /* EditorView.swift */; };
+	908FE5646277BC679843941A /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908FE5646277BC679843941A /* CameraView.swift */; };
+	7507CF5244165C1BFA091DD9 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7507CF5244165C1BFA091DD9 /* PaywallView.swift */; };
+	E4607CE20A26C739222FD32E /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4607CE20A26C739222FD32E /* LibraryView.swift */; };
+	19B7A8964DF3D4BE7BAC1F84 /* PresetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B7A8964DF3D4BE7BAC1F84 /* PresetsView.swift */; };
+	C76312505AE719A4D4BE1698 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76312505AE719A4D4BE1698 /* SettingsView.swift */; };
+	7BBF0461F123BD944755A42E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3629767EF64D90F35944AF57 /* Assets.xcassets */; };
+	C1DC9A8DEE21711B179A5970 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0C156C2971A679E8F1D41C1 /* Info.plist */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+	1766F933858C2D8078458B61 /* GRRollApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/GRRollApp.swift; sourceTree = "<group>"; };
+	725825825BC43F899527F58C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/ContentView.swift; sourceTree = "<group>"; };
+	AB002D0EF02F9785D6154C16 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Core/Theme.swift; sourceTree = "<group>"; };
+	92D4081CCF64F622DB5BDC58 /* FilmLook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Model/FilmLook.swift; sourceTree = "<group>"; };
+	0FFEA1A25C947565C2BEA5B9 /* AspectRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Model/AspectRatio.swift; sourceTree = "<group>"; };
+	982D9BEAC5CB4F0AE725FEC6 /* Preset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Model/Preset.swift; sourceTree = "<group>"; };
+	E3D5C4A42DDCB81BB4C04F35 /* GRLookFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Engine/GRLookFilter.swift; sourceTree = "<group>"; };
+	001749B0252082ECB9153769 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Camera/CameraManager.swift; sourceTree = "<group>"; };
+	E9F28CE4F84728181F8A3BE6 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Camera/CameraPreviewView.swift; sourceTree = "<group>"; };
+	4BB3BB9CD4992B6C67C30E9A /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Store/SubscriptionManager.swift; sourceTree = "<group>"; };
+	35C2B0DCD59DB3E5AB16B0EB /* WatermarkRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Utilities/WatermarkRenderer.swift; sourceTree = "<group>"; };
+	E8DAC99464774C97AB4892A0 /* PhotoLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Utilities/PhotoLibrary.swift; sourceTree = "<group>"; };
+	5458C5BDAB33B0CB1585F8C7 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Utilities/ImagePicker.swift; sourceTree = "<group>"; };
+	F1C378035B85CBCEBA05381D /* LookBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Views/LookBar.swift; sourceTree = "<group>"; };
+	E2E21578CE31169325B5B3AB /* ParameterPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Views/ParameterPanel.swift; sourceTree = "<group>"; };
+	14D8572561C08CA5D5F12B8A /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Views/EditorView.swift; sourceTree = "<group>"; };
+	908FE5646277BC679843941A /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Views/CameraView.swift; sourceTree = "<group>"; };
+	7507CF5244165C1BFA091DD9 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Views/PaywallView.swift; sourceTree = "<group>"; };
+	E4607CE20A26C739222FD32E /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Views/LibraryView.swift; sourceTree = "<group>"; };
+	19B7A8964DF3D4BE7BAC1F84 /* PresetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Views/PresetsView.swift; sourceTree = "<group>"; };
+	C76312505AE719A4D4BE1698 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRRoll/Views/SettingsView.swift; sourceTree = "<group>"; };
+	3629767EF64D90F35944AF57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assets; path = GRRoll/Assets.xcassets; sourceTree = "<group>"; };
+	E0C156C2971A679E8F1D41C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = GRRoll/Info.plist; sourceTree = "<group>"; };
+	359750BAA05CA7B21944D9C9 /* GRRoll.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GRRoll.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+	EE95ED08E01D978CF882C4D6 /* Frameworks */ = {
+		isa = PBXFrameworksBuildPhase;
+		buildActionMask = 2147483647;
+		files = (
+		);
+		runOnlyForDeploymentPostprocessing = 0;
+	};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+	8F275FB29E4BDB34D4428956 = {
+		isa = PBXGroup;
+		children = (
+			F2045C25DD670B19214769B4 /* GRRoll */,
+			8E0552C8081CC3EC095EF87C /* Products */,
+		);
+		sourceTree = "<group>";
+	};
+	F2045C25DD670B19214769B4 /* GRRoll */ = {
+		isa = PBXGroup;
+		children = (
+			1766F933858C2D8078458B61 /* GRRollApp.swift */,
+			725825825BC43F899527F58C /* ContentView.swift */,
+			AB002D0EF02F9785D6154C16 /* Theme.swift */,
+			92D4081CCF64F622DB5BDC58 /* FilmLook.swift */,
+			0FFEA1A25C947565C2BEA5B9 /* AspectRatio.swift */,
+			982D9BEAC5CB4F0AE725FEC6 /* Preset.swift */,
+			E3D5C4A42DDCB81BB4C04F35 /* GRLookFilter.swift */,
+			001749B0252082ECB9153769 /* CameraManager.swift */,
+			E9F28CE4F84728181F8A3BE6 /* CameraPreviewView.swift */,
+			4BB3BB9CD4992B6C67C30E9A /* SubscriptionManager.swift */,
+			35C2B0DCD59DB3E5AB16B0EB /* WatermarkRenderer.swift */,
+			E8DAC99464774C97AB4892A0 /* PhotoLibrary.swift */,
+			5458C5BDAB33B0CB1585F8C7 /* ImagePicker.swift */,
+			F1C378035B85CBCEBA05381D /* LookBar.swift */,
+			E2E21578CE31169325B5B3AB /* ParameterPanel.swift */,
+			14D8572561C08CA5D5F12B8A /* EditorView.swift */,
+			908FE5646277BC679843941A /* CameraView.swift */,
+			7507CF5244165C1BFA091DD9 /* PaywallView.swift */,
+			E4607CE20A26C739222FD32E /* LibraryView.swift */,
+			19B7A8964DF3D4BE7BAC1F84 /* PresetsView.swift */,
+			C76312505AE719A4D4BE1698 /* SettingsView.swift */,
+			3629767EF64D90F35944AF57 /* Assets.xcassets */,
+			E0C156C2971A679E8F1D41C1 /* Info.plist */,
+		);
+		path = GRRoll;
+		sourceTree = "<group>";
+	};
+	8E0552C8081CC3EC095EF87C /* Products */ = {
+		isa = PBXGroup;
+		children = (
+			359750BAA05CA7B21944D9C9 /* GRRoll.app */,
+		);
+		name = Products;
+		sourceTree = "<group>";
+	};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+	E9D84F9A26944638FB79D922 /* GRRoll */ = {
+		isa = PBXNativeTarget;
+		buildConfigurationList = 42CD6AFCE83DB58962A9CE83 /* Build configuration list for PBXNativeTarget "GRRoll" */;
+		buildPhases = (
+			FCBC915F5EC40B9E20B41441 /* Sources */,
+			EE95ED08E01D978CF882C4D6 /* Frameworks */,
+			FB9B7DC7471ACAE8E241AE99 /* Resources */,
+		);
+		buildRules = (
+		);
+		dependencies = (
+		);
+		name = GRRoll;
+		productName = GRRoll;
+		productReference = 359750BAA05CA7B21944D9C9 /* GRRoll.app */;
+		productType = "com.apple.product-type.application";
+	};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+	949D4E31D1D0531E534113EC /* Project object */ = {
+		isa = PBXProject;
+		attributes = {
+			BuildIndependentTargetsInParallel = 1;
+			LastSwiftUpdateCheck = 1500;
+			LastUpgradeCheck = 1500;
+			TargetAttributes = {
+				E9D84F9A26944638FB79D922 = {
+						CreatedOnToolsVersion = 15.0;
+				};
+			};
+		};
+		buildConfigurationList = 6BF60603E0451A8ACC773E06 /* Build configuration list for PBXProject "GRRoll" */;
+		compatibilityVersion = "Xcode 14.0";
+		developmentRegion = en;
+		hasScannedForEncodings = 0;
+		knownRegions = (
+			en,
+			Base,
+		);
+		mainGroup = 8F275FB29E4BDB34D4428956;
+		productRefGroup = 8E0552C8081CC3EC095EF87C /* Products */;
+		projectDirPath = "";
+		projectRoot = "";
+		targets = (
+			E9D84F9A26944638FB79D922 /* GRRoll */,
+		);
+	};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+	FB9B7DC7471ACAE8E241AE99 /* Resources */ = {
+		isa = PBXResourcesBuildPhase;
+		buildActionMask = 2147483647;
+		files = (
+			7BBF0461F123BD944755A42E /* Assets.xcassets in Resources */,
+		);
+		runOnlyForDeploymentPostprocessing = 0;
+	};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+	FCBC915F5EC40B9E20B41441 /* Sources */ = {
+		isa = PBXSourcesBuildPhase;
+		buildActionMask = 2147483647;
+		files = (
+			6F980A1080DDA5D5F16655F3 /* GRRollApp.swift in Sources */,
+			7D4822D37F1534AAB6072A3C /* ContentView.swift in Sources */,
+			4703EECBC96D12A2667B4472 /* Theme.swift in Sources */,
+			FE0B555FB500DAA286AB04CF /* FilmLook.swift in Sources */,
+			8ABAA4C53A60F0EDE9B6F1B3 /* AspectRatio.swift in Sources */,
+			9F43BAA00F129E8E080A893C /* Preset.swift in Sources */,
+			46EB1EBCDBA14314A738C542 /* GRLookFilter.swift in Sources */,
+			3F676C7DF86B40B2B87907A2 /* CameraManager.swift in Sources */,
+			040AFF6D66B03E01A45C14EF /* CameraPreviewView.swift in Sources */,
+			F6A10CB8963A446F98C9BC5E /* SubscriptionManager.swift in Sources */,
+			A31D1E6546614DA14AA5DA84 /* WatermarkRenderer.swift in Sources */,
+			355366E9E84BE086A0DBE68E /* PhotoLibrary.swift in Sources */,
+			3838FCF502B9414A33197CE9 /* ImagePicker.swift in Sources */,
+			C3329D4CA441C3785DDCC96D /* LookBar.swift in Sources */,
+			1D4A134A2577CA7FE3C1AE31 /* ParameterPanel.swift in Sources */,
+			796CA723B45F383F496FD23C /* EditorView.swift in Sources */,
+			4F8726012EB09C2F538E6AD4 /* CameraView.swift in Sources */,
+			A5890E9904009F7B0A7E1D04 /* PaywallView.swift in Sources */,
+			57724DE64A167DAE109F6E05 /* LibraryView.swift in Sources */,
+			598DF6917A7081DD56622C03 /* PresetsView.swift in Sources */,
+			12D99BF0B3AB89C36A214EEA /* SettingsView.swift in Sources */,
+		);
+		runOnlyForDeploymentPostprocessing = 0;
+	};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		7B7BFB66798C8C6E38034346 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+				"DEBUG=1",
+				"$(inherited)",
+			);;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = -Onone;
+			};
+			name = Release;
+		};
+		8CACE881AE874DB54AE20BEA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf-with-dsym;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = -O;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		073889C6AE58E4E53B7D7F22 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = GRRoll/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+				"@executable_path/Frameworks",
+			);;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.grroll.camera;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AB6EDB10FC5250D24FAFB810 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = GRRoll/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+				"@executable_path/Frameworks",
+			);;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.grroll.camera;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				COPY_PHASE_STRIP = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = -O;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+	6BF60603E0451A8ACC773E06 /* Build configuration list for PBXProject "GRRoll" */ = {
+		isa = XCConfigurationList;
+		buildConfigurations = (
+			7B7BFB66798C8C6E38034346 /* Debug */,
+			8CACE881AE874DB54AE20BEA /* Release */,
+		);
+		defaultConfigurationIsVisible = 0;
+		defaultConfigurationName = Release;
+	};
+	42CD6AFCE83DB58962A9CE83 /* Build configuration list for PBXNativeTarget "GRRoll" */ = {
+		isa = XCConfigurationList;
+		buildConfigurations = (
+			073889C6AE58E4E53B7D7F22 /* Debug */,
+			AB6EDB10FC5250D24FAFB810 /* Release */,
+		);
+		defaultConfigurationIsVisible = 0;
+		defaultConfigurationName = Release;
+	};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = 949D4E31D1D0531E534113EC /* Project object */;
+}

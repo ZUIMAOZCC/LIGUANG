@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="GR ROLL" />
+<meta name="theme-color" content="#121212" />
+<link rel="apple-touch-icon" href="icon-512.png" />
+<link rel="icon" href="icon-512.png" />
+<link rel="manifest" href="manifest.webmanifest" />
+<title>GR ROLL</title>
+<style>
+  :root{
+    --gr-blue:#495760;
+    --bg:#121212;
+    --bg2:#1b1f22;
+    --text:#e8eaec;
+    --text2:#9aa1a6;
+    --line:rgba(255,255,255,.12);
+    --accent:#6b8290;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Helvetica Neue",Arial,sans-serif;
+    overscroll-behavior:none;}
+  #app{position:fixed;inset:0;display:flex;flex-direction:column;}
+  /* 顶部 */
+  .topbar{display:flex;align-items:center;justify-content:space-between;
+    padding:calc(env(safe-area-inset-top) + 10px) 16px 8px;gap:10px;z-index:6;}
+  .brand{font-weight:700;letter-spacing:.5px;font-size:17px;}
+  .brand small{color:var(--text2);font-weight:500;font-size:11px;display:block;letter-spacing:2px;}
+  .ratios{display:flex;gap:6px;}
+  .ratio-chip{font-size:12px;color:var(--text2);border:1px solid var(--line);
+    padding:5px 9px;border-radius:20px;background:rgba(255,255,255,.04);}
+  .ratio-chip.on{color:#fff;border-color:var(--accent);background:var(--gr-blue);}
+  /* 取景舞台 */
+  .stage{position:relative;flex:1;margin:6px 12px;overflow:hidden;border-radius:14px;
+    background:#000;display:flex;align-items:center;justify-content:center;}
+  #video,#still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    transform:translateZ(0);}
+  .overlay{position:absolute;inset:0;pointer-events:none;}
+  #grain{background-repeat:repeat;mix-blend-mode:overlay;opacity:0;}
+  #vignette{background:radial-gradient(circle at 50% 50%,transparent 52%,rgba(0,0,0,.0) 100%);}
+  #leak{background:radial-gradient(60% 50% at 85% 12%,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 70%);mix-blend-mode:screen;}
+  #tint{mix-blend-mode:soft-light;opacity:0;}
+  .frame{position:absolute;inset:14px;border:1px solid rgba(255,255,255,.18);border-radius:6px;pointer-events:none;}
+  /* 随画幅变化的取景裁切框：框外压暗，所见即所得 */
+  #cropFrame{position:absolute;pointer-events:none;z-index:3;border:1.5px solid rgba(255,255,255,.6);
+    border-radius:4px;box-shadow:0 0 0 9999px rgba(0,0,0,.42);display:none;
+    transition:width .18s ease,height .18s ease,left .18s ease,top .18s ease;}
+  .hint{position:absolute;bottom:14px;left:0;right:0;text-align:center;color:rgba(255,255,255,.85);
+    font-size:13px;z-index:5;text-shadow:0 1px 3px rgba(0,0,0,.6);}
+  .start-mask{position:absolute;inset:0;background:rgba(0,0,0,.55);display:flex;
+    align-items:center;justify-content:center;z-index:7;}
+  .start-btn{background:var(--gr-blue);color:#fff;border:none;padding:14px 26px;border-radius:30px;
+    font-size:15px;font-weight:600;}
+  /* 底部控制 */
+  .bottom{padding:10px 12px calc(env(safe-area-inset-bottom) + 14px);z-index:6;}
+  .looks{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:none;}
+  .looks::-webkit-scrollbar{display:none;}
+  .look{flex:0 0 auto;min-width:64px;text-align:center;padding:8px 10px;border-radius:12px;
+    border:1px solid var(--line);background:rgba(255,255,255,.04);position:relative;}
+  .look .n{font-size:12px;color:var(--text);}
+  .look.on{border-color:var(--accent);background:var(--gr-blue);}
+  .look .lock{position:absolute;top:4px;right:6px;font-size:10px;color:#f0c674;}
+  .controls{display:flex;align-items:center;justify-content:space-between;}
+  .side-btn{width:52px;height:52px;border-radius:50%;border:1px solid var(--line);
+    background:rgba(255,255,255,.06);color:var(--text);font-size:22px;display:flex;
+    align-items:center;justify-content:center;}
+  .shutter{width:74px;height:74px;border-radius:50%;border:4px solid #fff;background:var(--gr-blue);
+    display:flex;align-items:center;justify-content:center;}
+  .shutter:active{transform:scale(.95);}
+  .shutter i{width:54px;height:54px;border-radius:50%;background:#fff;display:block;}
+  /* 弹层 */
+  .sheet{position:fixed;left:0;right:0;bottom:0;background:var(--bg2);border-radius:18px 18px 0 0;
+    padding:18px 18px calc(env(safe-area-inset-bottom) + 22px);z-index:20;transform:translateY(110%);
+    transition:transform .28s ease;max-height:82vh;overflow-y:auto;border-top:1px solid var(--line);}
+  .sheet.open{transform:translateY(0);}
+  .sheet h3{margin:0 0 14px;font-size:15px;display:flex;justify-content:space-between;align-items:center;}
+  .sheet h3 span.close{color:var(--text2);font-size:22px;font-weight:400;}
+  .row{margin-bottom:14px;}
+  .row label{display:flex;justify-content:space-between;font-size:13px;color:var(--text2);margin-bottom:7px;}
+  .row label b{color:var(--text);font-weight:600;}
+  input[type=range]{width:100%;-webkit-appearance:none;height:4px;border-radius:4px;
+    background:rgba(255,255,255,.18);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+    background:var(--accent);box-shadow:0 0 0 4px rgba(107,130,144,.25);}
+  .toggle-row{display:flex;justify-content:space-between;align-items:center;font-size:14px;margin-bottom:14px;}
+  .presets-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+  .preset-card{border:1px solid var(--line);border-radius:12px;padding:12px;background:rgba(255,255,255,.04);}
+  .preset-card .pn{font-size:14px;font-weight:600;}
+  .preset-card .pd{font-size:11px;color:var(--text2);margin:4px 0 8px;}
+  .preset-card button{font-size:12px;border:none;border-radius:8px;padding:6px 10px;background:var(--gr-blue);color:#fff;margin-right:6px;}
+  .preset-card .del{background:transparent;color:#e0736b;border:1px solid rgba(224,115,107,.4);}
+  .save-btn{width:100%;background:var(--gr-blue);color:#fff;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:600;margin-top:6px;}
+  /* 预览大图 */
+  .preview-mask{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:30;display:none;
+    flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+  .preview-mask.show{display:flex;}
+  .preview-mask img{max-width:100%;max-height:70vh;border-radius:10px;}
+  .preview-actions{display:flex;gap:12px;margin-top:18px;}
+  .preview-actions button{padding:12px 20px;border-radius:12px;border:none;font-size:14px;font-weight:600;}
+  .pv-save{background:var(--gr-blue);color:#fff;}
+  .pv-close{background:rgba(255,255,255,.12);color:var(--text);}
+  .paywall{text-align:center;}
+  .paywall .big{font-size:20px;font-weight:700;margin-bottom:6px;}
+  .paywall .sub{color:var(--text2);font-size:13px;margin-bottom:16px;}
+  .paywall ul{text-align:left;font-size:13px;color:var(--text2);margin:0 0 18px;padding-left:18px;line-height:1.9;}
+  .paywall .unlock{background:linear-gradient(90deg,#495760,#6b8290);}
+  .toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.8);
+    color:#fff;padding:12px 20px;border-radius:10px;font-size:14px;z-index:40;opacity:0;transition:opacity .2s;}
+  .toast.show{opacity:1;}
+  /* 设置按钮 */
+  .set-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
+    background:rgba(255,255,255,.06);color:var(--text);font-size:20px;line-height:1;
+    display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .set-block{margin-bottom:14px;}
+  .set-title{font-size:14px;font-weight:600;margin-bottom:4px;}
+  .set-desc{font-size:12px;color:var(--text2);line-height:1.6;margin:0;}
+  /* 自动模式下参数滑块禁用态 */
+  input[type=range]:disabled{opacity:.4;}
+  .auto-note{font-size:11px;color:var(--text2);margin:-2px 0 10px;}
+  /* 横屏轻量适配 */
+  @media (orientation:landscape){
+    .topbar{padding-top:calc(env(safe-area-inset-top) + 6px);padding-bottom:4px;}
+    .bottom{padding-top:6px;padding-bottom:calc(env(safe-area-inset-bottom) + 8px);}
+    .brand small{display:none;}
+    .looks{padding-bottom:6px;}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="topbar">
+    <div class="brand">GR ROLL<small>RICOH GR LUT</small></div>
+    <div class="ratios" id="ratios"></div>
+    <button class="set-btn" id="setBtn" aria-label="设置">⋯</button>
+  </div>
+
+  <div class="stage" id="stage">
+    <video id="video" autoplay playsinline muted></video>
+    <img id="still" style="display:none" />
+    <div class="overlay" id="tint"></div>
+    <div class="overlay" id="grain"></div>
+    <div class="overlay" id="leak"></div>
+    <div class="overlay" id="vignette"></div>
+    <div class="frame"></div>
+    <div id="cropFrame"></div>
+    <div class="hint" id="hint">口袋理光 · 一键 GR 蓝 · 扫街直出</div>
+    <div class="start-mask" id="startMask">
+      <button class="start-btn" id="startBtn">开启相机</button>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="looks" id="looks"></div>
+    <div class="controls">
+      <button class="side-btn" id="paramBtn">⚙︎</button>
+      <button class="shutter" id="shutter"><i></i></button>
+      <button class="side-btn" id="importBtn">⤓</button>
+    </div>
+  </div>
+</div>
+
+<!-- 参数面板 -->
+<div class="sheet" id="paramSheet">
+  <h3>参数调节 <span class="close" data-close="paramSheet">×</span></h3>
+  <div class="toggle-row"><span>手动微调（关闭 = GR 自动直出）</span><input type="checkbox" id="manualToggle"></div>
+  <div class="auto-note" id="autoNote">当前为自动模式：套用该 LUT 出厂直出，适合快速扫街。</div>
+  <div id="sliders"></div>
+  <div class="toggle-row"><span>日期水印</span><input type="checkbox" id="wmDate"></div>
+  <div class="toggle-row"><span>机型水印 (GR ROLL)</span><input type="checkbox" id="wmModel"></div>
+  <button class="save-btn" id="openPresets">收藏配方 / 我的预设</button>
+</div>
+
+<!-- 预设面板 -->
+<div class="sheet" id="presetSheet">
+  <h3>我的配方 <span class="close" data-close="presetSheet">×</span></h3>
+  <div class="presets-grid" id="presetList"></div>
+  <button class="save-btn" id="savePreset" style="margin-top:14px">保存当前为配方</button>
+</div>
+
+<!-- 付费墙 -->
+<div class="sheet" id="paywallSheet">
+  <div class="paywall">
+    <div class="big">解锁全部理光 LUT</div>
+    <div class="sub">免费已含 GR正片 / GR负片 / GR怀旧</div>
+    <ul>
+      <li>单色黑白 · 硬单色 · 留银冲洗</li>
+      <li>正负逆冲 · HDF柔光 · 电影黄 · 电影绿</li>
+      <li>去除水印 · 全部参数精细调节</li>
+    </ul>
+    <button class="save-btn unlock" id="unlockBtn">订阅解锁（演示）</button>
+    <button class="save-btn" id="restoreBtn" style="background:transparent;border:1px solid var(--line);margin-top:10px">恢复购买</button>
+  </div>
+</div>
+
+<!-- 设置 -->
+<div class="sheet" id="settingsSheet">
+  <h3>设置 <span class="close" data-close="settingsSheet">×</span></h3>
+  <div class="set-block">
+    <div class="set-title">隐私</div>
+    <p class="set-desc">所有照片处理均在你的设备本地完成，不上传任何图片或数据。</p>
+  </div>
+  <div class="set-block">
+    <div class="set-title">关于</div>
+    <p class="set-desc">GR ROLL 网页版 · 理光 GR 胶片 LUT 相机 · 扫街人文复古直出。真正的快门速度 / ISO 手动曝光需原生 App（见说明）。</p>
+  </div>
+  <button class="save-btn" id="resetParams" style="margin-top:6px">重置当前参数（恢复默认）</button>
+  <button class="save-btn" id="clearPresets" style="background:transparent;border:1px solid var(--line);margin-top:10px">清除全部配方</button>
+  <button class="save-btn" id="resetUnlock" style="background:transparent;border:1px solid var(--line);margin-top:10px">恢复免费版（清除解锁）</button>
+</div>
+
+<!-- 预览 -->
+<div class="preview-mask" id="previewMask">
+  <img id="previewImg" />
+  <div class="preview-actions">
+    <button class="pv-save" id="pvSave">保存到相册</button>
+    <button class="pv-close" id="pvClose">关闭</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="fileInput" accept="image/*" style="display:none" />
+
+<script>
+"use strict";
+/* ---------- 配置 ---------- */
+const LOOKS = [
+  {id:'positive', name:'GR正片', free:true,  c:1.06,s:0.82,b:1.00,sep:0,   hue:-6, blur:0,   gray:false, tint:'rgba(70,110,140,0.10)', leak:'rgba(120,170,210,0.0)'},
+  {id:'negative', name:'GR负片', free:true,  c:0.95,s:0.70,b:1.06,sep:0.05,hue:8,  blur:0,   gray:false, tint:'rgba(60,120,170,0.16)', leak:'rgba(90,150,210,0.05)'},
+  {id:'retro',    name:'GR怀旧', free:true,  c:0.92,s:0.78,b:1.05,sep:0.32,hue:-4, blur:0,   gray:false, tint:'rgba(200,160,110,0.10)',leak:'rgba(220,180,120,0.06)'},
+  {id:'mono',     name:'单色黑白', free:false, c:1.12,s:0,   b:1.00,sep:1,   hue:0,  blur:0,   gray:true,  tint:'rgba(0,0,0,0)',          leak:'rgba(255,255,255,0)'},
+  {id:'hardmono', name:'硬单色',  free:false, c:1.40,s:0,   b:0.96,sep:1,   hue:0,  blur:0,   gray:true,  tint:'rgba(0,0,0,0)',          leak:'rgba(255,255,255,0)'},
+  {id:'silver',   name:'留银冲洗', free:false, c:1.30,s:0.50,b:1.00,sep:0,   hue:0,  blur:0,   gray:false, tint:'rgba(180,200,210,0.06)',leak:'rgba(255,255,255,0)'},
+  {id:'cross',    name:'正负逆冲', free:false, c:1.20,s:1.30,b:1.00,sep:0,   hue:-15,blur:0,   gray:false, tint:'rgba(150,200,120,0.10)',leak:'rgba(200,230,120,0.05)'},
+  {id:'hdf',      name:'HDF柔光', free:false, c:0.90,s:0.90,b:1.12,sep:0,   hue:0,  blur:1.2, gray:false, tint:'rgba(230,235,240,0.08)',leak:'rgba(255,250,240,0.08)'},
+  {id:'cineY',    name:'电影黄',  free:false, c:1.05,s:1.10,b:1.02,sep:0.18,hue:-8, blur:0,   gray:false, tint:'rgba(220,190,110,0.12)',leak:'rgba(240,210,140,0.06)'},
+  {id:'cineG',    name:'电影绿',  free:false, c:1.05,s:1.10,b:1.00,sep:0,   hue:42, blur:0,   gray:false, tint:'rgba(120,200,140,0.12)',leak:'rgba(140,220,160,0.05)'},
+];
+const RATIOS = [['3:2',3/2],['4:3',4/3],['1:1',1],['16:9',16/9]];
+const SLIDERS = [
+  {k:'contrast', name:'对比度', min:0,max:100,def:50},
+  {k:'sat',      name:'饱和度', min:0,max:100,def:50},
+  {k:'bright',   name:'亮度',   min:0,max:100,def:50},
+  {k:'grain',    name:'颗粒强度',min:0,max:100,def:30},
+  {k:'grainSize',name:'颗粒大小',min:0,max:100,def:35},
+  {k:'vignette', name:'暗角',   min:0,max:100,def:35},
+  {k:'fade',     name:'褪色',   min:0,max:100,def:20},
+  {k:'leak',     name:'漏光',   min:0,max:100,def:0},
+];
+
+/* ---------- 状态 ---------- */
+const state = {
+  look: LOOKS[0],
+  ratioIdx: 0,
+  params: Object.fromEntries(SLIDERS.map(s=>[s.k,s.def])),
+  wmDate: true,
+  wmModel: true,
+  img: null,           // 导入的图片元素（null 表示相机模式）
+  unlocked: localStorage.getItem('grroll_unlocked')==='1',
+  presets: JSON.parse(localStorage.getItem('grroll_presets')||'[]'),
+  manual: false,       // false=自动直出（用 LUT 出厂默认），true=手动微调
+};
+
+/* ---------- 元素 ---------- */
+const $ = id=>document.getElementById(id);
+const video=$('video'), still=$('still'), stage=$('stage');
+const grainEl=$('grain'), vignetteEl=$('vignette'), leakEl=$('leak'), tintEl=$('tint');
+
+/* ---------- 滤镜计算 ---------- */
+function sliderTo(k){
+  if(!state.manual) return SLIDERS.find(s=>s.k===k).def;   // 自动模式用 LUT 出厂默认
+  return state.params[k];
+}
+function contrastMul(){return 0.5+sliderTo('contrast')/100;}      // 0.5..1.5
+function satMul(){return sliderTo('sat')/50;}                     // 0..2
+function brightMul(){return 0.7+sliderTo('bright')/100*0.6;}      // 0.7..1.3
+function fadeAmt(){return sliderTo('fade')/100;}                  // 0..1
+function grainOp(){return sliderTo('grain')/100*0.55;}
+function grainScale(){return 6+sliderTo('grainSize')/100*22;}     // px tile
+function vignetteAmt(){return sliderTo('vignette')/100;}
+function leakAmt(){return sliderTo('leak')/100;}
+
+function cssFilter(){
+  const L=state.look;
+  let effC = contrastMul()*(1 - fadeAmt()*0.30);
+  const sat = L.gray?0:satMul()*L.s;
+  let f = `contrast(${effC.toFixed(3)}) saturate(${sat.toFixed(3)}) brightness(${brightMul().toFixed(3)})`;
+  if(L.gray){ f += ' grayscale(1)'; } else { f += ` sepia(${L.sep}) hue-rotate(${L.hue}deg)`; }
+  if(L.blur) f += ` blur(${L.blur}px)`;
+  return f;
+}
+function applyLive(){
+  const f = cssFilter();
+  video.style.filter = f;
+  still.style.filter = f;
+  // 颗粒
+  const gop = grainOp();
+  grainEl.style.opacity = gop;
+  grainEl.style.backgroundSize = grainScale()+'px';
+  // 暗角
+  const va = vignetteAmt();
+  vignetteEl.style.background =
+    `radial-gradient(circle at 50% 50%, transparent ${(52-va*22).toFixed(0)}%, rgba(0,0,0,${(va*0.85).toFixed(2)}) 100%)`;
+  // 漏光
+  const la = leakAmt();
+  leakEl.style.background =
+    `radial-gradient(60% 50% at 85% 12%, ${hexA(state.look.leak,la)} 0%, rgba(255,255,255,0) 70%)`;
+  leakEl.style.opacity = la>0?1:0;
+  // 色调
+  tintEl.style.background = state.look.tint;
+  tintEl.style.opacity = 1;
+}
+
+/* 取景裁切框：按所选画幅在舞台内居中显示，框外压暗（所见即所得） */
+function applyCrop(){
+  const r = stage.getBoundingClientRect();
+  if(!r.width || !r.height) return;
+  const ratio = RATIOS[state.ratioIdx][1];
+  const pad = 0.94;                 // 留 3% 边距
+  const aw = r.width*pad, ah = r.height*pad;
+  let w, h;
+  if(aw/ah > ratio){ h = ah; w = h*ratio; } else { w = aw; h = w/ratio; }
+  const f = $('cropFrame'); if(!f) return;
+  f.style.display = 'block';
+  f.style.width  = Math.round(w)+'px';
+  f.style.height = Math.round(h)+'px';
+  f.style.left   = Math.round((r.width  - w)/2)+'px';
+  f.style.top    = Math.round((r.height - h)/2)+'px';
+}
+function hexA(rgba, a){ // 把 rgba 的 alpha 替换为 a
+  const m = rgba.match(/rgba?\(([^)]+)\)/);
+  if(!m) return rgba;
+  const p = m[1].split(',').map(x=>x.trim());
+  return `rgba(${p[0]},${p[1]},${p[2]},${a.toFixed(2)})`;
+}
+
+/* ---------- 噪点背景 ---------- */
+(function makeGrain(){
+  const c=document.createElement('canvas'); c.width=c.height=128;
+  const x=c.getContext('2d'); const img=x.createImageData(128,128);
+  for(let i=0;i<img.data.length;i+=4){const v=Math.random()*255;img.data[i]=img.data[i+1]=img.data[i+2]=v;img.data[i+3]=255;}
+  x.putImageData(img,0,0);
+  grainEl.style.backgroundImage=`url(${c.toDataURL()})`;
+})();
+
+/* ---------- 渲染 UI ---------- */
+function renderRatios(){
+  $('ratios').innerHTML='';
+  RATIOS.forEach((r,i)=>{
+    const d=document.createElement('div');
+    d.className='ratio-chip'+(i===state.ratioIdx?' on':'');
+    d.textContent=r[0];
+    d.onclick=()=>{state.ratioIdx=i;renderRatios();applyCrop();};
+    $('ratios').appendChild(d);
+  });
+}
+function renderLooks(){
+  $('looks').innerHTML='';
+  LOOKS.forEach(L=>{
+    const locked = !L.free && !state.unlocked;
+    const d=document.createElement('div');
+    d.className='look'+(L.id===state.look.id?' on':'');
+    d.innerHTML=`<div class="n">${L.name}</div>`+(locked?'<div class="lock">🔒</div>':'');
+    d.onclick=()=>{
+      if(locked){ openSheet('paywallSheet'); return; }
+      state.look=L; renderLooks(); applyLive();
+    };
+    $('looks').appendChild(d);
+  });
+}
+function renderSliders(){
+  $('manualToggle').checked = state.manual;
+  $('autoNote').textContent = state.manual
+    ? '手动模式：以下参数自由微调，实时生效。'
+    : '当前为自动模式：套用该 LUT 出厂直出，适合快速扫街。';
+  $('sliders').innerHTML='';
+  SLIDERS.forEach(s=>{
+    const val = state.manual ? state.params[s.k] : s.def;
+    const row=document.createElement('div'); row.className='row';
+    row.innerHTML=`<label>${s.name}<b id="v_${s.k}">${val}</b></label>
+      <input type="range" min="${s.min}" max="${s.max}" value="${val}" id="r_${s.k}">`;
+    $('sliders').appendChild(row);
+    const inp = row.querySelector('input');
+    inp.disabled = !state.manual;
+    inp.oninput=e=>{
+      state.params[s.k]=+e.target.value;
+      $('v_'+s.k).textContent=e.target.value;
+      applyLive();
+    };
+  });
+  $('wmDate').checked=state.wmDate; $('wmModel').checked=state.wmModel;
+  $('wmDate').onchange=e=>state.wmDate=e.target.checked;
+  $('wmModel').onchange=e=>state.wmModel=e.target.checked;
+}
+function renderPresets(){
+  const box=$('presetList'); box.innerHTML='';
+  if(!state.presets.length){box.innerHTML='<div style="color:var(--text2);font-size:13px;grid-column:1/3">还没有配方，调好参数后点下方「保存当前为配方」。</div>';return;}
+  state.presets.forEach((p,i)=>{
+    const c=document.createElement('div'); c.className='preset-card';
+    c.innerHTML=`<div class="pn">${p.name}</div><div class="pd">${p.lookName} · ${RATIOS[p.ratioIdx][0]}</div>
+      <button data-apply="${i}">应用</button><button class="del" data-del="${i}">删除</button>`;
+    box.appendChild(c);
+  });
+  box.querySelectorAll('[data-apply]').forEach(b=>b.onclick=()=>{
+    const p=state.presets[+b.dataset.apply];
+    state.look=LOOKS.find(l=>l.id===p.lookId)||LOOKS[0];
+    state.ratioIdx=p.ratioIdx; state.params={...state.params,...p.params};
+    if(state.unlocked){state.wmDate=p.wmDate;state.wmModel=p.wmModel;}
+    renderRatios(); renderLooks(); renderSliders(); applyLive(); closeSheet('presetSheet'); toast('已应用配方');
+  });
+  box.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
+    state.presets.splice(+b.dataset.del,1); localStorage.setItem('grroll_presets',JSON.stringify(state.presets));
+    renderPresets(); toast('已删除');
+  });
+}
+
+/* ---------- 弹层 ---------- */
+function openSheet(id){$(id).classList.add('open');}
+function closeSheet(id){$(id).classList.remove('open');}
+document.querySelectorAll('[data-close]').forEach(e=>e.onclick=()=>closeSheet(e.dataset.close));
+
+/* ---------- 相机 ---------- */
+let stream=null;
+async function startCamera(){
+  try{
+    stream = await navigator.mediaDevices.getUserMedia({
+      video:{facingMode:{ideal:'environment'}, width:{ideal:1920}, height:{ideal:1080}},
+      audio:false
+    });
+    video.srcObject=stream;
+    state.img=null; still.style.display='none'; video.style.display='block';
+    $('startMask').style.display='none';
+    applyLive();
+    applyCrop();
+  }catch(err){
+    $('startBtn').textContent='相机不可用，点此重试';
+    toast('无法访问相机：'+err.name);
+  }
+}
+$('startBtn').onclick=startCamera;
+
+/* ---------- 拍照 / 导出 ---------- */
+function currentSource(){
+  if(state.img) return {el:state.img, w:state.img.naturalWidth, h:state.img.naturalHeight};
+  if(video.videoWidth) return {el:video, w:video.videoWidth, h:video.videoHeight};
+  return null;
+}
+function capture(){
+  const src=currentSource();
+  if(!src){toast('相机尚未就绪');return;}
+  const ratio=RATIOS[state.ratioIdx][1];
+  const sw=src.w, sh=src.h;
+  let cw,ch;
+  if(sw/sh>ratio){ch=sh;cw=sh*ratio;}else{cw=sw;ch=sw/ratio;}
+  const cx=(sw-cw)/2, cy=(sh-ch)/2;
+  const longSide=2400;
+  let outW,outH;
+  if(cw>=ch){outW=longSide;outH=Math.round(longSide*ch/cw);}else{outH=longSide;outW=Math.round(longSide*cw/ch);}
+  const canvas=document.createElement('canvas'); canvas.width=outW; canvas.height=outH;
+  const ctx=canvas.getContext('2d');
+  ctx.filter=cssFilter();
+  ctx.drawImage(src.el, cx,cy,cw,ch, 0,0,outW,outH);
+  ctx.filter='none';
+  // 颗粒
+  const gop=grainOp();
+  if(gop>0){
+    const nc=document.createElement('canvas'); nc.width=outW; nc.height=outH;
+    const nx=nc.getContext('2d'); const ni=nx.createImageData(outW,outH);
+    for(let i=0;i<ni.data.length;i+=4){const v=Math.random()*255;ni.data[i]=ni.data[i+1]=ni.data[i+2]=v;ni.data[i+3]=Math.random()<gop?255:0;}
+    nx.putImageData(ni,0,0);
+    ctx.globalCompositeOperation='overlay'; ctx.drawImage(nc,0,0); ctx.globalCompositeOperation='source-over';
+  }
+  // 色调
+  if(!state.look.gray && state.look.tint!=='rgba(0,0,0,0)'){
+    ctx.globalCompositeOperation='soft-light'; ctx.fillStyle=state.look.tint; ctx.fillRect(0,0,outW,outH); ctx.globalCompositeOperation='source-over';
+  }
+  // 漏光
+  const la=leakAmt();
+  if(la>0){
+    const g=ctx.createRadialGradient(outW*0.85,outH*0.12,0,outW*0.85,outH*0.12,Math.max(outW,outH)*0.6);
+    g.addColorStop(0,hexA(state.look.leak,la*0.7)); g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.globalCompositeOperation='screen'; ctx.fillStyle=g; ctx.fillRect(0,0,outW,outH); ctx.globalCompositeOperation='source-over';
+  }
+  // 暗角
+  const va=vignetteAmt();
+  if(va>0){
+    const g=ctx.createRadialGradient(outW/2,outH/2,Math.min(outW,outH)*0.30,outW/2,outH/2,Math.max(outW,outH)*0.72);
+    g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,`rgba(0,0,0,${(va*0.85).toFixed(2)})`);
+    ctx.fillStyle=g; ctx.fillRect(0,0,outW,outH);
+  }
+  // 水印（免费版强制）
+  const showDate = state.wmDate || !state.unlocked;
+  const showModel = state.wmModel || !state.unlocked;
+  if(showDate||showModel){
+    const fs=Math.round(outW*0.026);
+    ctx.font=`600 ${fs}px -apple-system, sans-serif`;
+    ctx.textBaseline='bottom';
+    ctx.shadowColor='rgba(0,0,0,.55)'; ctx.shadowBlur=fs*0.4; ctx.shadowOffsetY=fs*0.12;
+    ctx.fillStyle='rgba(255,255,255,.82)';
+    const pad=fs*0.7; let ty=outH-pad;
+    if(showModel){ctx.fillText('GR ROLL',pad,ty);ty-=fs*1.2;}
+    if(showDate){const d=new Date();const ds=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;ctx.fillText(ds,pad,ty);}
+    ctx.shadowBlur=0;ctx.shadowOffsetY=0;
+  }
+  canvas.toBlob(async blob=>{
+    const file=new File([blob],'GR_ROLL_'+Date.now()+'.jpg',{type:'image/jpeg'});
+    const url=URL.createObjectURL(blob);
+    $('previewImg').src=url;
+    $('previewMask').classList.add('show');
+    $('previewMask').dataset.file=url;
+  },'image/jpeg',0.95);
+}
+$('shutter').onclick=capture;
+$('pvClose').onclick=()=>{$('previewMask').classList.remove('show');};
+$('pvSave').onclick=async()=>{
+  const url=$('previewImg').src;
+  if(navigator.canShare){
+    try{
+      const blob=await (await fetch(url)).blob();
+      const file=new File([blob],'GR_ROLL.jpg',{type:'image/jpeg'});
+      if(navigator.canShare({files:[file]})){
+        await navigator.share({files:[file],title:'GR ROLL'}); return;
+      }
+    }catch(e){/* 用户取消或失败，落到下载 */}
+  }
+  // 兜底：触发下载（iOS 会存到「文件」，可长按保存）
+  const a=document.createElement('a'); a.href=url; a.download='GR_ROLL.jpg'; a.click();
+  toast('已保存（如未直接存入相册，请长按图片存储）');
+};
+
+/* ---------- 导入相册图片 ---------- */
+$('importBtn').onclick=()=>$('fileInput').click();
+$('fileInput').onchange=e=>{
+  const f=e.target.files[0]; if(!f)return;
+  const url=URL.createObjectURL(f);
+  const img=new Image();
+  img.onload=()=>{ state.img=img; still.src=url; still.style.display='block'; video.style.display='none';
+    if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}
+    $('startMask').style.display='none'; applyLive(); toast('已导入，调好参数点快门保存'); };
+  img.src=url;
+};
+
+/* ---------- 预设保存 ---------- */
+$('openPresets').onclick=()=>{renderPresets();openSheet('presetSheet');};
+$('savePreset').onclick=()=>{
+  const name=prompt('给这套理光配方起个名字：', state.look.name+' 配方');
+  if(!name)return;
+  state.presets.push({name, lookId:state.look.id, lookName:state.look.name, ratioIdx:state.ratioIdx,
+    params:{...state.params}, wmDate:state.wmDate, wmModel:state.wmModel});
+  localStorage.setItem('grroll_presets',JSON.stringify(state.presets));
+  renderPresets(); toast('已保存配方');
+};
+
+/* ---------- 付费 ---------- */
+$('unlockBtn').onclick=()=>{
+  state.unlocked=true; localStorage.setItem('grroll_unlocked','1');
+  closeSheet('paywallSheet'); renderLooks(); toast('已解锁全部 LUT（演示）');
+};
+$('restoreBtn').onclick=()=>{ if(state.unlocked){toast('已解锁');}else{toast('未找到购买记录');openSheet('paywallSheet');} };
+
+/* ---------- 工具 ---------- */
+let toastTimer;
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),1800);}
+$('paramBtn').onclick=()=>openSheet('paramSheet');
+$('setBtn').onclick=()=>openSheet('settingsSheet');
+$('manualToggle').onchange=e=>{ state.manual=e.target.checked; renderSliders(); applyLive(); };
+$('resetParams').onclick=()=>{
+  SLIDERS.forEach(s=>state.params[s.k]=s.def);
+  state.wmDate=true; state.wmModel=true;
+  renderSliders(); applyLive(); toast('参数已重置为默认');
+};
+$('clearPresets').onclick=()=>{
+  if(!state.presets.length){toast('还没有保存的配方');return;}
+  state.presets=[]; localStorage.removeItem('grroll_presets');
+  renderPresets(); toast('已清除全部配方');
+};
+$('resetUnlock').onclick=()=>{
+  state.unlocked=false; localStorage.removeItem('grroll_unlocked');
+  renderLooks(); toast('已恢复免费版');
+};
+
+/* ---------- 初始化 ---------- */
+renderRatios(); renderLooks(); renderSliders(); applyLive();
+applyCrop();
+requestAnimationFrame(applyCrop);
+if(window.ResizeObserver){ new ResizeObserver(()=>applyCrop()).observe(stage); }
+window.addEventListener('resize', applyCrop);
+window.addEventListener('orientationchange', ()=>setTimeout(applyCrop,250));
+if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+  $('startBtn').textContent='本浏览器不支持相机'; $('hint').textContent='请用 iPhone Safari 打开';
+}
+// 自动尝试开相机（部分浏览器需手势，已提供按钮）
+window.addEventListener('load',()=>{ /* 不自动开，等用户点 */ });
+
+/* ---------- Service Worker（离线/可安装，失败不影响使用） ---------- */
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>

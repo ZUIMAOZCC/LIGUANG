@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDisplayName</key>
+    <string>GR ROLL</string>
+    <key>CFBundleName</key>
+    <string>GR ROLL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>NSCameraUsageDescription</key>
+    <string>GR ROLL 需要用相机实时取景并拍摄扫街照片</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>GR ROLL 需要读取相册以导入照片套用理光 LUT</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>GR ROLL 需要将处理后的高清照片保存到你的相册</string>
+    <key>UILaunchScreen</key>
+    <dict/>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+    </array>
+    <key>UIApplicationSceneManifest</key>
+    <dict/>
+    <key>UIBackgroundModes</key>
+    <array/>
+</dict>
+</plist>
