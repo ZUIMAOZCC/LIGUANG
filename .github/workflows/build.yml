@@ -1,0 +1,46 @@
+name: Build GR ROLL ipa
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Checkout 代码
+        uses: actions/checkout@v4
+
+      - name: 显示 Xcode 版本
+        run: xcodebuild -version
+
+      - name: 编译（不签名，真机 SDK）
+        run: |
+          set -o pipefail
+          xcodebuild -project GRRoll.xcodeproj \
+                     -target GRRoll \
+                     -sdk iphoneos \
+                     -configuration Release \
+                     CODE_SIGNING_ALLOWED=NO \
+                     CODE_SIGNING_REQUIRED=NO \
+                     CODE_SIGN_IDENTITY="" \
+                     -derivedDataPath dd \
+                     build | tee build.log
+
+      - name: 打包成未签名 ipa
+        run: |
+          APP=$(find dd/Build/Products -type d -name "*.app" | head -1)
+          echo "Found app: $APP"
+          rm -rf Payload GRRoll-unsigned.ipa
+          mkdir Payload
+          cp -R "$APP" Payload/
+          zip -qry GRRoll-unsigned.ipa Payload
+          ls -la GRRoll-unsigned.ipa
+
+      - name: 上传 ipa 产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: GRRoll-unsigned-ipa
+          path: GRRoll-unsigned.ipa
+          if-no-files-found: error
